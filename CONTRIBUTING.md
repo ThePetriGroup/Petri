@@ -2,20 +2,26 @@
 
 Everyone can help out with this probject. Any skill can be applied.
 
-But. There are a few guidelines to help you to help so that everything doesn't become an enormous mess.
+But. There are a few guidelines to help you to help so that everything
+doesn't become an enormous mess.
 
-- Small changes can be pushed directly to this repo, while larger ones should be included in a pull request.
-- Make use of issues. If there's a bug you can't fix, then put it there. Don't use a !notify.
+- Small changes can be pushed directly to this repo, while larger ones
+  should be included in a pull request.
+- Make use of issues. If there's a bug you can't fix, then put it there.
+  Don't use a !notify.
 
 # Style
 
-Using a consistent style across code helps it to look nice and makes it easier to edit.
+Using a consistent style across code helps it to look nice and makes it
+easier to edit.
 
-- Use CamelCase for classes and under_score for variables and functions.
-- Use [1TBS](https://en.wikipedia.org/wiki/Indent_style#Variant:_1TBS) style for all code. 
+- Use `CamelCase` for classes and `under_score` for variables and functions.
+- Use [1TBS](https://en.wikipedia.org/wiki/Indent_style#Variant:_1TBS) style
+  for all code.
 - Indentation should be 4 spaces. No more and no less.
-- No lines should go over 80 chars unless you have a VERY good reason.
-- All markup languages should use lower case tags and should be indented for easier reading.
+- No lines should go over 80 chars unless you have a **very** good reason.
+- All markup languages should use lower case tags and should be indented for
+  easier reading.
 - Comments are nice. Too many comments are better than not enough.
 
 # General Rules
