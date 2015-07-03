@@ -16,7 +16,7 @@ Using a consistent style across code helps it to look nice and makes it easier t
 - Indentation should be 4 spaces. No more and no less.
 - No lines should go over 80 chars unless you have a VERY good reason.
 - All markup languages should use lower case tags and should be indented for easier reading.
-- Comments are nice. Too many comments are better than not enough.
+- Comments are very important. However, they should never say what the code does, they should explain what it is for.
 
 # General Rules
 
