@@ -22,7 +22,10 @@ easier to edit.
 - No lines should go over 80 chars unless you have a **very** good reason.
 - All markup languages should use lower case tags and should be indented for
   easier reading.
-- Comments are nice. Too many comments are better than not enough.
+- All markup languages should use lower case tags and should be indented for
+  easier reading.
+- Comments are very important. However, they should never say what the code
+  does, they should explain what it is for.
 
 # General Rules
 
