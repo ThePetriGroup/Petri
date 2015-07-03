@@ -7,6 +7,8 @@
     </script>
 </head>
 <body>
-    <canvas id="canvas"> Your browser does not support HTML5 Canvas, please try opera, google chrome or firefox </canvas>
+    <canvas id="canvas">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
 </body>
 </html>
