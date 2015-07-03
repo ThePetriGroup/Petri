@@ -5,10 +5,12 @@ Everyone can help out with this probject. Any skill can be applied.
 But. There are a few guidelines to help you to help so that everything
 doesn't become an enormous mess.
 
-- Small changes can be pushed directly to this repo, while larger ones
-  should be included in a pull request.
-- Make use of issues. If there's a bug you can't fix, then put it there.
-  Don't use a !notify.
+- Small changes can be pushed directly to this repo, while larger ones should
+  be included in a pull request.
+- When you put in a pull request, first rebase it from master. This makes the
+  merge much simpler and easier to do.
+- Make use of issues. If there's a bug you can't fix, then put it there. Don't
+  use a !notify.
 
 # Style
 
