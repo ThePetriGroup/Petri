@@ -1,4 +1,4 @@
-## Contributing
+# Contributing
 
 Everyone can help out with this probject. Any skill can be applied.
 
