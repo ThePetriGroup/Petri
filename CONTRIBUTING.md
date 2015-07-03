@@ -1,4 +1,4 @@
-# Contributing
+## Contributing
 
 Everyone can help out with this probject. Any skill can be applied.
 
@@ -7,12 +7,16 @@ doesn't become an enormous mess.
 
 - Small changes can be pushed directly to this repo, while larger ones should
   be included in a pull request.
-- When you put in a pull request, first rebase it from master. This makes the
-  merge much simpler and easier to do.
+- When you put in a pull request, first rebase it. This makes the merge much
+  simpler and easier to do.
+- All server related stuff should go in the "server" branch, all client
+  related stuff should go in the "client" branch. Dev work that does not go
+  into either should go into the "dev" branch which over time will be merged
+  into "master". 
 - Make use of issues. If there's a bug you can't fix, then put it there. Don't
   use a !notify.
 
-# Style
+## Style
 
 Using a consistent style across code helps it to look nice and makes it
 easier to edit.
@@ -24,12 +28,10 @@ easier to edit.
 - No lines should go over 80 chars unless you have a **very** good reason.
 - All markup languages should use lower case tags and should be indented for
   easier reading.
-- All markup languages should use lower case tags and should be indented for
-  easier reading.
 - Comments are very important. However, they should never say what the code
   does, they should explain what it is for.
 
-# General Rules
+## General Rules
 
 Pretty much everything in the Zen of Python is good style. So go with that.
 
