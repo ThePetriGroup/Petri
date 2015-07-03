@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg"
+     viewBox="0,0 692,1200" width="692" height="1200">
+    <!-- Common parameters -->
+    <g fill="none" stroke="black" stroke-linecap="round" stroke-width="4">
+        <!-- Main grid element -->
+        <path d="M 1038,400 l -692,400 l -346,-200 v -400 l 346,-200 Z"/>
+        <!-- Connecting line -->
+        <line x1="346" y1="800" x2="346" y2="1200"/>
+        <!-- Incoming/outgoing details -->
+        <path d="M 328.7,1210 l 17.3,-10 l 17.3,10"/>
+    </g>
+</svg>
