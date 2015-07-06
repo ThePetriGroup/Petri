@@ -67,22 +67,24 @@ shall be interpreted as encoded using ASCII.
   axis.
 - `n` – *(Client-side) nick* (text; client → server): This informs the
   server about the nick-name the client has chosen. Nick-names can be changed
-  at any time, and other clients should be promptly informed of these changes.
+  at any time, and other clients should be promptly informed of these
+  changes.
 
   The command letter is immediately followed by the nick-name to be used,
   the latter being terminated by the message's end.
 - `p` – *Participation status* (text; client → server): Transferred when the
-  client changes its "participation status"; the message contents consist of
-  that.
+  client changes its "participation status" (and during initialization); the
+  message contents encode the actual status.
 
   **Participation statuses**
 
-  - `i` – *Idle*: Not doing anything (like, before the game has been entered).
+  - `i` – *Idle*: Not doing anything (like, before the game has been
+    entered). Assumed initially.
   - `p` – *Playing*: Actively taking part in the game.
   - *Spectating might be added.*
-- `d` – *Direction* (binary; client → server): This message informs the server
-  about the direction the client is heading to now, as well as about its
-  speed.
+- `d` – *Direction* (binary; client → server): This message informs the
+  server about the direction the client is heading to now, as well as about
+  its speed.
 
   The message contents are two floats `dx` and `dy`, containing the velocity
   components of the client along the x and y axes in units per second. The
@@ -93,7 +95,8 @@ shall be interpreted as encoded using ASCII.
 
 - `N` – *Nick(s)* (text; server → client): Estabilishes a mapping between
   cell ID's and nick-names. Sent as soon as a cell comes into the client's
-  field of vision (*or for every cell on the server (?)*).
+  field of vision, or on other occasions (like for cells which are part of
+  the leaderboard) (*or for every cell on the server (?)*).
 
   The command letter is followed by pairs of base-4096 encoded cell ID's and
   corresponding names, with each name terminated by the sentinel `U+FFFF`.
@@ -106,11 +109,26 @@ shall be interpreted as encoded using ASCII.
   if the need appears (*???*). To prevent innecessary data flow, data should
   be transmitted only for cells within the FOV of the player.
 
-  The "data part" of the message consists of a sequence of records, where each
-  record consists of an int and four floats. The int contains the cell ID the
-  information is about, the floats are the position `x`, `y`, and the movement
-  deltas `dx`, `dy` (in units per second); they are included in the order they
-  are told about here.
+  The "data part" of the message consists of a sequence of records, where
+  each record consists of an int and four floats. The int contains the cell
+  ID the information is about, the floats are the position `x`, `y`, and the
+  movement deltas `dx`, `dy` (in units per second); they are included in the
+  order they are told about here.
+- `S` – *Speed/Status* (binary; server → client): This informs of the client
+  about its current status in the game. Sent once the client joins the game,
+  and when the status changes.
+
+  The message contents consist of a one-byte status, and additional values
+  (depending on that).
+
+  **Client statuses**
+
+  - `n` – *New*: The client has freshly spawned. There are additional data,
+    two floats, one containing the client's new mass, and another with its
+    maximum speed (in units per second).
+  - `g` – *Grown (or shrinked)*: The client's mass changed. The additional
+    data are the same as for `n`.
+  - `d` – *Dead*: The client was eaten. There is *no* additional datum.
 - `E` – *Error* (text; server → client): Informs the client of an error, such
   as an invalid nick-name.
 
