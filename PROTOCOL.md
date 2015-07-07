@@ -1,12 +1,8 @@
-# *Petri* communication protocol (*draft*)
-
-*– This document is not finished, and provided as a basis for early
-discussion. –*
+# Petri communication protocol
 
 ## Abstract
 
-This document describes a possible communication protocol to be used
-by Petri.
+This document describes the communication protocol to be used by Petri.
 
 ## Introduction
 
@@ -34,20 +30,21 @@ floating-point numbers, transferred as defined in the standard.
 The term *base-4096* shall refer to the encoding of *int*-s into
 sequences of Unicode codepoints for the sake of efficient transport of
 numbers in text messages. The encoding consists of two, three, or four
-characters in sequence; the last character, with a value of `U+FFFF` acts
+characters in sequence; the last character, with a value of `U+FFFF`, acts
 as a sentinel delimiting the number from further data, the other characters
 represent the "digits" of the number when transformed to a numeral system
 with the base of 4096, with the digits directly mapped to Unicode codepoints
-with the corresponding values, transferred in big-endian order.
+with the corresponding values. The digits are transferred in big-endian
+order.
 
-A *cell ID* shall be a unique integer in the range \[0;2^31-1\] (so that it
+A *cell ID* shall be a unique integer in the range \[0;2³¹-1\] (so that it
 fits into an *int*), identifying a cell (client). ID's may be re-used after
 a cell exits; the other clients should be notified of that.
 
 ## Message structure
 
-Message boundaries are implicitly preserved by the underlying protocol,
-so the Petri protocol need not take care of them.
+Message boundaries are implicitly preserved by the underlying protocol, so
+the Petri protocol need not take care of them.
 
 Messages are discriminated by their first byte/character (for
 binary/text messages, respectively). For binary messages, the first bytes
@@ -57,31 +54,30 @@ shall be interpreted as encoded using ASCII.
 
 **Client-side messages**
 
-- `z` – *Zone* (binary; client → server): Transferred once during
-  initialization, and later when the client's window or the zoom level
-  change, this message tells the server how many grid units far the client
-  can "see" other cells.
+- `z` – *Zone* (binary): Transferred once during initialization, and later
+  when the client's window or the zoom level change, this message tells the
+  server how many grid units far the client can "see" other cells.
 
-  The `z` is immediately followed by two ints, `x` encoding the maximum
+  The `z` is immediately followed by two floats, `x` encoding the maximum
   distance the user can see along the x axis, and similarly `y` for the y
   axis.
-- `n` – *(Client-side) nick* (text; client → server): This informs the
-  server about the nick-name the client has chosen. Nick-names can be changed
-  at any time, and other clients should be promptly informed of these
-  changes.
+- `n` – *(Client-side) nick* (text): This informs the server about the
+  nick-name the client has chosen. Nick-names can be changed at any time, and
+  other clients should be promptly informed of these changes.
 
   The command letter is immediately followed by the nick-name to be used,
   the latter being terminated by the message's end.
-- `p` – *Participation status* (text; client → server): Transferred when the
-  client changes its "participation status" (and during initialization); the
-  message contents encode the actual status.
+- `p` – *Participation status* (text): Transferred when the client changes
+  its "participation status" (and during initialization); the message
+  contents encode the actual status.
 
   **Participation statuses**
 
   - `i` – *Idle*: Not doing anything (like, before the game has been
-    entered). Assumed initially.
+    entered). The cell is not part of the game, it has no position, nor can
+    other cells interact with it. Assumed initially.
   - `p` – *Playing*: Actively taking part in the game.
-  - *Spectating might be added.*
+  - *Spectating might be added in a later revision.*
 - `d` – *Direction* (binary; client → server): This message informs the
   server about the direction the client is heading to now, as well as about
   its speed.
@@ -93,32 +89,37 @@ shall be interpreted as encoded using ASCII.
 
 **Server-side messages**
 
-- `N` – *Nick(s)* (text; server → client): Estabilishes a mapping between
-  cell ID's and nick-names. Sent as soon as a cell comes into the client's
-  field of vision, or on other occasions (like for cells which are part of
-  the leaderboard) (*or for every cell on the server (?)*).
+- `I` – *Identity* (binary): This message tells the client about its own ID.
+
+  The message contents are a single int encoding the ID.
+- `N` – *Nick(s)* (text): Estabilishes a mapping between cell ID's and
+  nick-names. Sent as soon as a cell comes into the client's field of vision,
+  or on other occasions (like for cells which are part of the leaderboard, or
+  for cells that change their nicks).
 
   The command letter is followed by pairs of base-4096 encoded cell ID's and
   corresponding names, with each name terminated by the sentinel `U+FFFF`.
   Clients should be prevented from using that character, as well as any
   other Unicode non-character or surrogate codepoint.
-- `L` – *Line(s)* (binary; server → client): Transfers motion information
+- `C` – *Color(s)* (binary): **To be done**
+- `L` – *Line(s)* (binary): Transfers motion information
   about cells on the server, including the client receiving the packet
   itself. Not all cells need to be covered in the packet, in particular,
-  those ones who did turn should be prioritized over those ones who did not,
-  if the need appears (*???*). To prevent innecessary data flow, data should
-  be transmitted only for cells within the FOV of the player.
+  those ones who did turn should be prioritized over those ones who did not
+  (if the need appears). To prevent innecessary data flow, data should be
+  transmitted only for cells within the FOV of the player.
 
   The "data part" of the message consists of a sequence of records, where
   each record consists of an int and four floats. The int contains the cell
   ID the information is about, the floats are the position `x`, `y`, and the
   movement deltas `dx`, `dy` (in units per second); they are included in the
   order they are told about here.
-- `S` – *Speed/Status* (binary; server → client): This informs of the client
-  about its current status in the game. Sent once the client joins the game,
+- `S` – *Speed/Status* (binary): This informs of the client about its – and
+  others' – current status in the game. Sent once the client joins the game,
   and when the status changes.
 
-  The message contents consist of a one-byte status, and additional values
+  The message contents consist of a sequence of records, each one consisting
+  of a cell ID in an int, a one-byte status, and additional values
   (depending on that).
 
   **Client statuses**
@@ -128,14 +129,13 @@ shall be interpreted as encoded using ASCII.
     maximum speed (in units per second).
   - `g` – *Grown (or shrinked)*: The client's mass changed. The additional
     data are the same as for `n`.
-  - `d` – *Dead*: The client was eaten. There is *no* additional datum.
-- `E` – *Error* (text; server → client): Informs the client of an error, such
-  as an invalid nick-name.
+  - `d` – *Dead*: The client was eaten, and has therefore changed its
+    participation status to *idle*. There is *no* additional datum.
+  - `l` – *Left*: The client has left voluntarily. The same notes as to `d`
+    apply.
+- `E` – *Error* (text): Informs the client of an error, such as an invalid
+  nick-name.
 
   The command letter is followed by a base-4096 encoded error code (concrete
   error codes are to be agreed on later), after which an error message
   terminated by the (protocol) message's end follows.
-- *Should colors be calculated server-side and transferred, or rather be
-  calculated client-side?*
-
-*– Feel free to comment! –*
