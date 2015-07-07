@@ -26,6 +26,7 @@ easier to edit.
   for all code.
 - Indentation should be 4 spaces. No more and no less.
 - No lines should go over 80 chars unless you have a **very** good reason.
+- Line endings should be Unix style - not Windows and not Mac.
 - All markup languages should use lower case tags and should be indented for
   easier reading.
 - Comments are very important. However, they should never say what the code
