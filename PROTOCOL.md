@@ -138,6 +138,8 @@ shall be interpreted as encoded using ASCII.
     pair as above, and a velocity duplet (in units per second), followed by
     a one-float deceleration factor containing which fraction of the velocity
     should have stayed after one second; the speed decays exponentially.
+
+  Not all groups need be present.
 - `L` – *Line(s)* (binary): Transfers motion information about cells on the
   server, including the client receiving the packet itself. Not all cells
   need to be covered in the packet, in particular, those ones who did turn
