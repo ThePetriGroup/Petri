@@ -50,7 +50,7 @@ Message boundaries are implicitly preserved by the underlying protocol, so
 the Petri protocol need not take care of them.
 
 Messages are discriminated by their first byte/character (for
-binary/text messages, respectively). For binary messages, the first bytes
+binary/text messages, respectively). For binary messages, the first byte
 shall be interpreted as encoded using ASCII.
 
 ### Message contents
@@ -64,6 +64,11 @@ shall be interpreted as encoded using ASCII.
   The `z` is immediately followed by two floats, `x` encoding the maximum
   distance the user can see along the x axis, and similarly `y` for the y
   axis.
+- `c` – *Center* (binary): This message contains the current center of the
+  view zone of the client. Transferred each time it changes.
+
+  The data part consists of a two-float coordinate pair `x` and `y`
+  containing the datum to transfer.
 - `n` – *(Client-side) nick* (text): This informs the server about the
   nick-name the client has chosen. Nick-names can be changed at any time, and
   other clients should be promptly informed of these changes.
@@ -163,3 +168,9 @@ shall be interpreted as encoded using ASCII.
   The command letter is followed by a base-4096 encoded error code (concrete
   error codes are to be agreed on later), after which an error message
   terminated by the (protocol) message's end follows.
+
+## Further notes
+
+In case complex data transfers will be needed, there will still be the option
+to use text messages with the opening brace `{` as the first character as
+vessels for the transfer of JSON-encoded messages.
