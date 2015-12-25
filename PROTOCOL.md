@@ -58,7 +58,7 @@ shall be interpreted as encoded using ASCII.
 **Client-side messages**
 
 - `z` – *Zone* (binary): Transferred once during initialization, and later
-  when the client's window or the zoom level change, this message tells the
+  when the client's window size or zoom level change, this message tells the
   server how many grid units far the client can "see" other cells.
 
   The `z` is immediately followed by two floats, `x` encoding the maximum
