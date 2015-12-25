@@ -127,7 +127,8 @@ shall be interpreted as encoded using ASCII.
   ID is an int and the mass a float.
 - `F` – *Food* (binary): This message contains data about the locations of
   "food" (little edible passive pieces) to be added or deleted. Because of
-  bandwidth restrictions, only data for
+  bandwidth restrictions, only data for food within a player's FOV should
+  be transferred.
 
   The data part consists of a sequence of records, where each record starts
   with an ID encoded as an int (similar to a player of cell ID) first,
@@ -171,6 +172,6 @@ shall be interpreted as encoded using ASCII.
 
 ## Further notes
 
-In case complex data transfers will be needed, there will still be the option
-to use text messages with the opening brace `{` as the first character as
+In case complex data transfers will be needed, there is still the option of
+using text messages with the opening brace `{` as the first character as
 vessels for the transfer of JSON-encoded messages.
